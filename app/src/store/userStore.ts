@@ -3,7 +3,7 @@ import { create } from "zustand";
 interface UserInfo {
   id: string;
   username: string;
-  bio: string | undefined;
+  bio: string;
 }
 
 interface UserStore {
