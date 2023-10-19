@@ -16,6 +16,10 @@ export const Signin = () => {
   const provider = new BrowserProvider(window.ethereum);
 
   function createSiweMessage(address: string, statement: string) {
+    const expirationOffset = 1000 * 60 * 5;
+    const currentTimestamp = Date.now();
+    const expirationTime = new Date(currentTimestamp + expirationOffset);
+
     const message = new SiweMessage({
       domain,
       address,
@@ -23,7 +27,7 @@ export const Signin = () => {
       uri: origin,
       version: "1",
       chainId: 1,
-      expirationTime: new Date(Date.now() * 1000 * 60 * 5).toISOString(),
+      expirationTime: expirationTime.toISOString(),
     });
     return message.prepareMessage();
   }
