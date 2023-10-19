@@ -4,22 +4,24 @@ import { signToken } from "../utils/jwtHelper";
 
 export const signIn = async (req: Request, res: Response) => {
   const { message, signature } = req.body;
+
   const siweMessage = new SiweMessage(message);
-  try {
-    const verificationRes = await siweMessage.verify({ signature });
+  const { success, error, data } = await siweMessage.verify(
+    { signature },
+    { suppressExceptions: true },
+  );
 
-    if (!verificationRes.success) {
-      console.error(`Error verifying signature: ${verificationRes.error}`);
-      res.send(false);
-      return;
-    }
-
-    const token = signToken({
-      address: verificationRes.data.address,
-    });
-    res.send({ token: token });
-  } catch (e: any) {
-    console.error(`Error verifying signature: ${e}`);
+  if (!success) {
+    console.error(`Error verifying signature: ${error}`);
+    res.status(401);
     res.send(false);
   }
+
+  const claims = {
+    sub: data.address,
+  };
+
+  const token = signToken(claims);
+
+  res.send({ token: token });
 };

@@ -2,6 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import authRoutes from "./routes/authRoutes";
+import { jwtAuth } from "./middlewares/authMiddleware";
+import userRoutes from "./routes/userRoutes";
 
 export const startServer = async (port: number) => {
   const app = express();
@@ -13,7 +15,7 @@ export const startServer = async (port: number) => {
 
   // Routes
   app.use("/api/auth", authRoutes);
-
+  app.use("/api/user", jwtAuth, userRoutes);
   // Start the server
   return app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
