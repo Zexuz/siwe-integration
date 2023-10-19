@@ -28,5 +28,12 @@ export const jwtAuth = async (
     req.userId = verifiedToken.sub;
   }
 
+  req.getUserIdOrFail = () => {
+    if (!req.userId) {
+      throw new Error("No userId in request");
+    }
+    return req.userId;
+  };
+
   next();
 };
