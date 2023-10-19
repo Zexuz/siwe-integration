@@ -1,11 +1,14 @@
 import { BrowserProvider } from "ethers";
 import { SiweMessage } from "siwe";
+import { useEffect } from "react";
+import { useUserStore } from "./store/userStore.ts";
 
 function App() {
   return (
     <>
       <p className="m-10 text-blue-600">asdasd</p>
       <Signin />
+      <Profile />
     </>
   );
 }
@@ -14,6 +17,7 @@ export const Signin = () => {
   const domain = window.location.host;
   const origin = window.location.origin;
   const provider = new BrowserProvider(window.ethereum);
+  const setToken = useUserStore((state) => state.setToken);
 
   function createSiweMessage(address: string, statement: string) {
     const expirationOffset = 1000 * 60 * 5;
@@ -57,13 +61,49 @@ export const Signin = () => {
     };
     fetch(`${domain}/api/auth/signin`, requestOptions)
       .then((response) => response.json())
-      .then((data) => console.log(data));
+      .then((data) => setToken(data.token));
   }
 
   return (
     <>
       <Button onClick={connectWallet}>Connect Wallet</Button>
       <Button onClick={signInWithEthereum}>Sign in with Ethereum</Button>
+    </>
+  );
+};
+
+export const Profile = () => {
+  const token = useUserStore((state) => state.token);
+  const refresh = useUserStore((state) => state.refresh);
+  const { username, id, bio } = useUserStore((state) => state.userInfo);
+  const update = useUserStore((state) => state.update);
+
+  useEffect(() => {
+    const asyncFunc = async () => {
+      console.log("refreshing"); // TODO: Set loading state
+      await refresh();
+      console.log("refreshed"); // TODO: Set loading state
+    };
+
+    asyncFunc();
+  }, [refresh]);
+
+  const updateProfile = async () => {
+    update({
+      bio: "new biao",
+      username: "new usernaasdadsame",
+    });
+  };
+
+  return (
+    <>
+      <p>Token: {token}</p>
+      <p>Profile</p>
+      <p>Id: {id}</p>
+      <p>Username: {username}</p>
+      <p>Bio: {bio}</p>
+      <Button onClick={refresh}>Refresh</Button>
+      <Button onClick={updateProfile}>Update</Button>
     </>
   );
 };

@@ -16,6 +16,7 @@ export const startServer = async (port: number) => {
   // Routes
   app.use("/api/auth", authRoutes);
   app.use("/api/user", jwtAuth, userRoutes);
+
   // Start the server
   return app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
