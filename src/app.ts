@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import authRoutes from "./routes/authRoutes";
 import { jwtAuth } from "./middlewares/authMiddleware";
-import userRoutes from "./routes/userRoutes";
+import userRoutes from "./routes/userRoutes/userRoutes";
 
 export const startServer = async (port: number) => {
   const app = express();

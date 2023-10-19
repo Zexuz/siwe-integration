@@ -10,3 +10,4 @@
 * Express
 * MongoDB
 * siwe
+* joi (validation)
