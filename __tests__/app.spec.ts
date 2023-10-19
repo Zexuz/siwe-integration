@@ -5,7 +5,7 @@ import authRoutes from "../src/routes/authRoutes";
 import userRoutes from "../src/routes/userRoutes/userRoutes";
 import { User } from "../src/models/userModel";
 import dotenv from "dotenv";
-import { getEnvOrDefault, getEnvOrThrow } from "../src/utils/env";
+import { getEnvOrThrow } from "../src/utils/env";
 import { startDb } from "../src/app"; // adjust the import to your file structure
 
 dotenv.config({ path: ".env.test" });
