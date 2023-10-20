@@ -25,7 +25,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
   update: async (newState) => {
     const token = get().token;
 
-    const baseUrl = "http://localhost:3000";
+    const baseUrl = import.meta.env["VITE_BASE_URL"];
 
     const response = await fetch(`${baseUrl}/api/user/me`, {
       method: "POST",
@@ -53,7 +53,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
   refresh: async () => {
     const token = get().token;
 
-    const baseUrl = "http://localhost:3000";
+    const baseUrl = import.meta.env["VITE_BASE_URL"];
 
     const response = await fetch(`${baseUrl}/api/user/me`, {
       method: "GET",

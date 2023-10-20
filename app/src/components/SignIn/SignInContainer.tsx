@@ -40,9 +40,9 @@ export const SignInContainer = () => {
     );
 
     const signature = await signer.signMessage(message);
-    console.log(`hash: ${signature}`);
 
-    const domain = "http://localhost:3000";
+    const domain = import.meta.env["VITE_BASE_URL"];
+    console.log(`domain: ${domain}`);
 
     const requestOptions = {
       method: "POST",
