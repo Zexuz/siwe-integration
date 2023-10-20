@@ -1,38 +1,24 @@
 import { Request, Response } from "express";
-import { SiweMessage } from "siwe";
-import { signToken } from "../utils/jwtHelper";
-import { User } from "../models/userModel";
+import { signIn, SignInError } from "../services/authService";
 
-export const signIn = async (req: Request, res: Response) => {
+export const signInHandler = async (req: Request, res: Response) => {
   const { message, signature } = req.body;
-
-  const siweMessage = new SiweMessage(message);
-  const { success, error, data } = await siweMessage.verify(
-    { signature },
-    { suppressExceptions: true },
-  );
+  const { success, error, errorCode, token } = await signIn(message, signature);
 
   if (!success) {
-    console.error(`Error verifying signature: ${error}`);
-    res.status(401);
-    res.send(false);
+    //TODO: Better error handling and logging
+    console.error(`Error signing in: ${error}`);
+    switch (errorCode) {
+      case SignInError.SignatureError:
+        res.status(401);
+        res.send({});
+        return;
+      default:
+        res.status(500);
+        res.send({});
+        return;
+    }
   }
 
-  const claims = {
-    sub: data.address,
-  };
-
-  const token = signToken(claims);
-
-  const user = await User.findById({ _id: data.address });
-  if (!user) {
-    const newUser = new User({
-      _id: data.address,
-      username: data.address,
-      bio: "",
-    });
-    await newUser.save();
-  }
-
-  res.send({ token: token });
+  res.send({ token });
 };

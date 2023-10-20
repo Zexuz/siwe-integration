@@ -1,10 +1,19 @@
 import jwt from "jsonwebtoken";
 import { getEnvOrThrow } from "./env";
 
-export const signToken = (
-  payload: object,
-  expiresIn: string = "1h",
-): string => {
+interface Claims {
+  sub: string;
+}
+
+export const createTokenWithUserId = (userId: string): string => {
+  const claims: Claims = {
+    sub: userId,
+  };
+
+  return signToken(claims);
+};
+
+const signToken = (payload: object, expiresIn: string = "1h"): string => {
   return jwt.sign(payload, getJwtSecret(), { expiresIn });
 };
 
