@@ -6,6 +6,7 @@ import { startDb } from "./config/db";
 import { PORT } from "./config/env";
 
 async function main() {
+  console.log("Starting server...");
   await startDb();
   const server = await startServer(PORT);
 

@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import { getEnvOrThrow } from "./env";
 import { JWT_SECRET } from "../config/env";
 
 interface Claims {
