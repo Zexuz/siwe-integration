@@ -7,6 +7,10 @@ jest.mock("../services/authService", () => ({
   signIn: (...args: any[]) => mockSignIn(...args),
 }));
 
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
 describe("AuthController", () => {
   it("should return 401 if there is a signatureError", async () => {
     const req = {

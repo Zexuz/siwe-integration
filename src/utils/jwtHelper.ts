@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { getEnvOrThrow } from "./env";
+import { JWT_SECRET } from "../config/env";
 
 interface Claims {
   sub: string;
@@ -14,13 +15,9 @@ export const createTokenWithUserId = (userId: string): string => {
 };
 
 const signToken = (payload: object, expiresIn: string = "1h"): string => {
-  return jwt.sign(payload, getJwtSecret(), { expiresIn });
+  return jwt.sign(payload, JWT_SECRET, { expiresIn });
 };
 
 export const verifyToken = (token: string): any => {
-  return jwt.verify(token, getJwtSecret());
-};
-
-const getJwtSecret = () => {
-  return getEnvOrThrow("JWT_SECRET");
+  return jwt.verify(token, JWT_SECRET);
 };

@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import authRoutes from "./routes/authRoutes";
+import authRoutes from "./routes/authRoutes/authRoutes";
 import { jwtAuth } from "./middlewares/authMiddleware";
 import userRoutes from "./routes/userRoutes/userRoutes";
 
