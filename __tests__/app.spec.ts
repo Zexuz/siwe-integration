@@ -1,62 +1,33 @@
 import request from "supertest";
-import express from "express";
-import cors from "cors";
-import authRoutes from "../src/routes/authRoutes";
-import userRoutes from "../src/routes/userRoutes/userRoutes";
 import { User } from "../src/models/userModel";
 import dotenv from "dotenv";
 import { startDb } from "../src/config/db";
+import { initApp } from "./helpers";
 
 dotenv.config({ path: ".env.test" });
 
-const fakeAuthMiddleware = (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction,
-) => {
-  req.userId = "0xddc2f17daCb8187AC0e26e6Bd852Ee3212684b81";
-  req.getUserIdOrFail = () => "0xddc2f17daCb8187AC0e26e6Bd852Ee3212684b81";
-  next();
-};
-
-const app = express();
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/user", fakeAuthMiddleware, userRoutes);
+const app = initApp();
 
 beforeAll(async () => {
   await startDb();
 
-  const setUpUser = async () => {
-    const newUser = new User({
-      _id: "0xddc2f17daCb8187AC0e26e6Bd852Ee3212684b81",
-      username: "0xddc2f17daCb8187AC0e26e6Bd852Ee3212684b81",
-      bio: "",
-    });
-    await newUser.save();
-  };
-
-  return setUpUser();
+  const newUser = new User({
+    _id: "0xddc2f17daCb8187AC0e26e6Bd852Ee3212684b81",
+    username: "0xddc2f17daCb8187AC0e26e6Bd852Ee3212684b81",
+    bio: "",
+  });
+  await newUser.save();
 });
 
-afterAll(() => {
-  const tearDownUser = async () => {
-    await User.deleteMany({});
-  };
-
-  return tearDownUser();
+afterAll(async () => {
+  await User.deleteMany({});
 });
 
 describe("/api/user/me", () => {
   describe("GET", () => {
     it("should return 200 OK", async () => {
       const res = await request(app).get("/api/user/me");
+
       expect(res.status).toBe(200);
       expect(res.body).toEqual({
         bio: "",
