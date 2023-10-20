@@ -1,1 +1,1 @@
-export { create, findById } from "./userService";
+export { create, findById, update } from "./userService";
