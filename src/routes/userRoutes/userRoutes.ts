@@ -4,7 +4,7 @@ import { updateUserSchemaValidator } from "./validators";
 
 const router = express.Router();
 
-router.get("/me", userController.me);
-router.post("/me", updateUserSchemaValidator, userController.updateMe);
+router.get("/me", userController.meHandler);
+router.post("/me", updateUserSchemaValidator, userController.updateMeHandler);
 
 export default router;

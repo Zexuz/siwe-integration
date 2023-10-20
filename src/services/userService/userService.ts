@@ -12,3 +12,19 @@ export const create = async (id: string) => {
   });
   await newUser.save();
 };
+
+export const update = async (id: string, username: string, bio: string) => {
+  const user = await findById(id);
+  if (!user) {
+    return false;
+  }
+
+  if (username) {
+    user.username = username;
+  }
+  if (bio) {
+    user.bio = bio;
+  }
+  await user.save();
+  return true;
+};
