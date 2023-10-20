@@ -5,8 +5,7 @@ import authRoutes from "../src/routes/authRoutes";
 import userRoutes from "../src/routes/userRoutes/userRoutes";
 import { User } from "../src/models/userModel";
 import dotenv from "dotenv";
-import { getEnvOrThrow } from "../src/utils/env";
-import { startDb } from "../src/app"; // adjust the import to your file structure
+import { startDb } from "../src/config/db";
 
 dotenv.config({ path: ".env.test" });
 
@@ -32,7 +31,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/user", fakeAuthMiddleware, userRoutes);
 
 beforeAll(async () => {
-  await startDb(getEnvOrThrow("MONGODB_URI"));
+  await startDb();
 
   const setUpUser = async () => {
     const newUser = new User({

@@ -1,5 +1,4 @@
 import express from "express";
-import mongoose from "mongoose";
 import cors from "cors";
 import authRoutes from "./routes/authRoutes";
 import { jwtAuth } from "./middlewares/authMiddleware";
@@ -21,13 +20,4 @@ export const startServer = async (port: number) => {
   return app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
   });
-};
-
-export const startDb = async (connectionString: string) => {
-  try {
-    await mongoose.connect(connectionString, {});
-  } catch (e: any) {
-    console.error(`Error connecting to database: ${e.message}`);
-    throw e;
-  }
 };

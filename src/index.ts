@@ -1,18 +1,13 @@
-import dotenv from "dotenv";
-import { startServer, startDb } from "./app";
+import { startServer } from "./app";
 import { IncomingMessage, ServerResponse } from "http";
 import mongoose from "mongoose";
 import * as http from "http";
-import { getEnvOrDefault, getEnvOrThrow } from "./utils/env";
+import { startDb } from "./config/db";
+import { PORT } from "./config/env";
 
 async function main() {
-  dotenv.config();
-
-  const connectionString = getEnvOrThrow("MONGODB_URI");
-  const port = getEnvOrDefault("PORT", 3000);
-
-  await startDb(connectionString);
-  const server = await startServer(port);
+  await startDb();
+  const server = await startServer(PORT);
 
   const handler = getShutdownHandler(server);
   process.on("SIGTERM", handler);
@@ -35,7 +30,7 @@ const getShutdownHandler = (
   server: http.Server<typeof IncomingMessage, typeof ServerResponse>,
 ) => {
   return async () => {
-    console.log("\nGracefully shutting down...");
+    console.log("Gracefully shutting down...");
 
     setTimeout(() => {
       console.error(
