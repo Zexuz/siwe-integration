@@ -11,14 +11,14 @@ export const signInHandler = async (req: Request, res: Response) => {
     switch (errorCode) {
       case SignInError.SignatureError:
         res.status(401);
-        res.send({});
+        res.json({});
         return;
       default:
         res.status(500);
-        res.send({});
+        res.json({});
         return;
     }
   }
 
-  res.send({ token });
+  res.json({ token });
 };
