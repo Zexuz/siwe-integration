@@ -4,10 +4,6 @@ services:
     build: .
     ports:
       - "3000:3000"
-    environment:
-      - SIWE_MONGODB_URI=mongodb://my-mongo:27017/siwe
-      - SIWE_JWT_SECRET=my-SUPER-Secret!
-      - SIWE_PORT=3000
   my-mongo:
     image: mongo
     ports:
