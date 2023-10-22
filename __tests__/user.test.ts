@@ -1,27 +1,11 @@
 import request from "supertest";
-import { User } from "../src/models/userModel";
 import dotenv from "dotenv";
-import { startDb } from "../src/config/db";
-import { initApp } from "./helpers";
+import { setupTest, initApp, USER_ID } from "./helpers";
 
 dotenv.config({ path: ".env.test" });
 
+setupTest();
 const app = initApp();
-
-beforeAll(async () => {
-  await startDb();
-
-  const newUser = new User({
-    _id: "0xddc2f17daCb8187AC0e26e6Bd852Ee3212684b81",
-    username: "0xddc2f17daCb8187AC0e26e6Bd852Ee3212684b81",
-    bio: "",
-  });
-  await newUser.save();
-});
-
-afterAll(async () => {
-  await User.deleteMany({});
-});
 
 describe("/api/user/me", () => {
   describe("GET", () => {
@@ -31,8 +15,8 @@ describe("/api/user/me", () => {
       expect(res.status).toBe(200);
       expect(res.body).toEqual({
         bio: "",
-        id: "0xddc2f17daCb8187AC0e26e6Bd852Ee3212684b81",
-        username: "0xddc2f17daCb8187AC0e26e6Bd852Ee3212684b81",
+        id: USER_ID,
+        username: USER_ID,
       });
     });
   });
@@ -62,7 +46,7 @@ describe("/api/user/me", () => {
       expect(res.status).toBe(200);
       expect(res.body).toEqual({
         bio: "updatedBio",
-        id: "0xddc2f17daCb8187AC0e26e6Bd852Ee3212684b81",
+        id: USER_ID,
         username: "updatedUsername",
       });
     });
