@@ -8,12 +8,13 @@ It uses the container/view pattern for the components.
 
 ### How to run
 
-1. Update the .env file in the `/app` folder with the correct values
-2. Run the following commands
+1. Rename env.example to .env
+2. Update the .env file in the `/app` folder with the correct values
+3. Run the following commands
 ```bash
 cd app 
 npm install
-npm dev
+npm run dev
 ```
 
 ### Dependencies
@@ -39,8 +40,9 @@ To compensate for this, I wrote some end-to-end tests using supertest and jest.
 * supertest (testing)
 
 ### How to run
-1. Update the .env file in the `root` folder with the correct values
-2. Run the following commands
+1. Rename env.example to .env
+2. Update the .env file in the `root` folder with the correct values
+3. Run the following commands
 ```bash
 docker-compose up -d
 ```
