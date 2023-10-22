@@ -2,10 +2,17 @@ import express from "express";
 import cors from "cors";
 import authRoutes from "../src/routes/authRoutes/authRoutes";
 import userRoutes from "../src/routes/userRoutes/userRoutes";
-import { startDb } from "../src/config/db";
-import { User } from "../src/models/userModel";
 
-export const USER_ID = "0xddc2f17daCb8187AC0e26e6Bd852Ee3212684b81";
+const generateRandomEthAddress = () => {
+  const chars = "0123456789abcdef";
+  let hex = "0x";
+  for (let i = 0; i < 40; i++) {
+    hex += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return hex;
+};
+
+export const USER_ID = generateRandomEthAddress();
 
 export const initApp = () => {
   const app = express();
@@ -29,21 +36,4 @@ const fakeAuthMiddleware = (
   req.userId = USER_ID;
   req.getUserIdOrFail = () => USER_ID;
   next();
-};
-
-export const setupTest = () => {
-  beforeAll(async () => {
-    await startDb();
-
-    const newUser = new User({
-      _id: USER_ID,
-      username: USER_ID,
-      bio: "",
-    });
-    await newUser.save();
-  });
-
-  afterAll(async () => {
-    await User.deleteMany({});
-  });
 };

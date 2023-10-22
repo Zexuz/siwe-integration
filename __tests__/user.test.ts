@@ -1,11 +1,27 @@
 import request from "supertest";
 import dotenv from "dotenv";
-import { setupTest, initApp, USER_ID } from "./helpers";
+import { initApp, USER_ID } from "./helpers";
+import { startDb } from "../src/config/db";
+import { User } from "../src/models/userModel";
 
 dotenv.config({ path: ".env.test" });
 
-setupTest();
 const app = initApp();
+
+beforeAll(async () => {
+  await startDb();
+
+  const newUser = new User({
+    _id: USER_ID,
+    username: USER_ID,
+    bio: "",
+  });
+  await newUser.save();
+});
+
+afterAll(async () => {
+  await User.deleteMany({});
+});
 
 describe("/api/user/me", () => {
   describe("GET", () => {
