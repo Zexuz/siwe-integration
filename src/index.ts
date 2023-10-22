@@ -27,12 +27,16 @@ async function main() {
   await main();
 })();
 
+/*
+ * Used to gracefully shutdown the server when updating or restarting the docker container
+ * */
 const getShutdownHandler = (
   server: http.Server<typeof IncomingMessage, typeof ServerResponse>,
 ) => {
   return async () => {
     console.log("Gracefully shutting down...");
 
+    // Forcefully shutdown after 10 seconds in case something goes wrong
     setTimeout(() => {
       console.error(
         "Could not close connections in time, forcefully shutting down",

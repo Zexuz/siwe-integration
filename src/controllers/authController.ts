@@ -6,7 +6,7 @@ export const signInHandler = async (req: Request, res: Response) => {
   const { success, error, errorCode, token } = await signIn(message, signature);
 
   if (!success) {
-    //TODO: Better error handling and logging
+    //TODO: Better error handling and logging, maybe use a middleware for non 200 responses
     console.error(`Error signing in: ${error}`);
     switch (errorCode) {
       case SignInError.SignatureError:
