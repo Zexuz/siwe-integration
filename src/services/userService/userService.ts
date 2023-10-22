@@ -9,6 +9,7 @@ export const create = async (id: string, nonce: string = "") => {
     _id: id,
     username: id,
     bio: "",
+    loginNonce: nonce,
   });
   await newUser.save();
 };
