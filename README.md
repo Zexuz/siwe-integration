@@ -1,6 +1,12 @@
 
 # Sign in with Ethereum
 
+## What to improve
+* Add better logging, send it to Prometheus or something similar
+* Add a CI/CD pipeline and IaC. Currently, the backend is using AWS EC2 previous setup from another project.
+* Add more tests, especially for the frontend, at least an end-to-end test using synpress to test fontend -> backend happy path.
+
+
 # Frontend
 The frontend is built with Reactl, Zustard TailwindCSS and ethers.js. The frontend is hosted on Vercel.
 
