@@ -1,1 +1,1 @@
-export { signIn, SignInError } from "./authService";
+export { signIn, SignInError, getNonce } from "./authService";

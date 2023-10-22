@@ -1,10 +1,17 @@
 
 # Sign in with Ethereum
 
+# Auth flow
+1. User receives a nonce from the backend (stored in the database)
+2. User signs message with their private key
+3. User sends the signature to the backend
+4. Backend verifies the signature + nonce, returns a JWT token
+5. Delete the nonce from the database to prevent replay attacks
+
 ## What to improve
 * Add better logging, send it to Prometheus or something similar
 * Add a CI/CD pipeline and IaC. Currently, the backend is using AWS EC2 previous setup from another project.
-* Add more tests, especially for the frontend, at least an end-to-end test using synpress to test fontend -> backend happy path.
+* Add more tests, especially for the frontend, at least an end-to-end test using synpress to test frontend -> backend happy-path.
 
 
 # Frontend

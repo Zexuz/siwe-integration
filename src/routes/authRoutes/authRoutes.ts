@@ -1,9 +1,10 @@
 import express from "express";
 import * as authController from "../../controllers/authController";
-import { signInSchemaValidator } from "./validators";
+import { getNonceSchemaValidator, signInSchemaValidator } from "./validators";
 
 const router = express.Router();
 
 router.post("/signin", signInSchemaValidator, authController.signInHandler);
+router.get("/nonce", getNonceSchemaValidator, authController.nonceHandler);
 
 export default router;

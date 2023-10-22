@@ -1,1 +1,8 @@
-export { create, findById, update } from "./userService";
+export {
+  create,
+  findById,
+  update,
+  deleteLoginNonceForUser,
+  getLoginNonceForUser,
+  setLoginNonceForUser,
+} from "./userService";

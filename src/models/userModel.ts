@@ -4,6 +4,7 @@ export interface IUser extends Document {
   _id: string; // Ethereum address
   username: string; // Username of the user
   bio: string; // Bio or description about the user
+  loginNonce: string; // Nonce for login
 }
 
 const userSchema: Schema = new Schema({
@@ -29,6 +30,10 @@ const userSchema: Schema = new Schema({
     type: String,
     required: false, // Making bio optional
     maxlength: 500, // Maximum bio length
+  },
+  loginNonce: {
+    type: String,
+    required: false,
   },
 });
 

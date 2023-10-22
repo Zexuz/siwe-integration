@@ -1,9 +1,13 @@
 import { Request, Response } from "express";
-import { signIn, SignInError } from "../services/authService";
+import { signIn, SignInError, getNonce } from "../services/authService";
 
 export const signInHandler = async (req: Request, res: Response) => {
-  const { message, signature } = req.body;
-  const { success, error, errorCode, token } = await signIn(message, signature);
+  const { message, signature, address: userProvidedAddress } = req.body;
+  const { success, error, errorCode, token } = await signIn(
+    message,
+    signature,
+    userProvidedAddress,
+  );
 
   if (!success) {
     //TODO: Better error handling and logging, maybe use a middleware for non 200 responses
@@ -21,4 +25,12 @@ export const signInHandler = async (req: Request, res: Response) => {
   }
 
   res.json({ token });
+};
+
+export const nonceHandler = async (req: Request, res: Response) => {
+  const { address } = req.query;
+
+  const nonce = await getNonce(address as string);
+
+  res.json({ nonce: nonce });
 };
