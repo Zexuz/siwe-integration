@@ -1,8 +1,10 @@
 export {
   create,
   findById,
-  update,
   deleteLoginNonceForUser,
   getLoginNonceForUser,
   setLoginNonceForUser,
+  findByUserName,
 } from "./userService";
+
+export { update } from "./update";

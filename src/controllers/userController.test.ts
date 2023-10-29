@@ -1,4 +1,5 @@
 import { meHandler, updateMeHandler } from "./userController";
+import { UpdateError } from "../services/userService/update";
 
 const mockFindById = jest.fn();
 const mockUpdate = jest.fn();
@@ -71,7 +72,10 @@ describe("UserController", () => {
         json: jest.fn(),
       } as any;
 
-      mockUpdate.mockResolvedValue(false);
+      mockUpdate.mockResolvedValue({
+        success: false,
+        errorCode: UpdateError.UserNotFound,
+      });
 
       await updateMeHandler(req, res);
 
@@ -93,7 +97,9 @@ describe("UserController", () => {
         json: jest.fn(),
       } as any;
 
-      mockUpdate.mockResolvedValue(true);
+      mockUpdate.mockResolvedValue({
+        success: true,
+      });
 
       await updateMeHandler(req, res);
 
